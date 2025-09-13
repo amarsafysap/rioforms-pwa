@@ -1,0 +1,44 @@
+_schema-version: '3.3'
+ID: rioforms-react-pwa
+version: 1.0.0
+
+parameters:
+  enable-parallel-deployments: true
+
+resources:
+  - name: rioforms-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: approuter/xs-security.json
+
+  - name: rioforms-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+modules:
+  - name: rioforms-approuter
+    type: nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+      env:
+        COOKIE_SAMESITE: "None"
+        COOKIE_SECURE: "true"
+    build-parameters:
+      builder: custom
+      commands:
+        # Install & build UI
+        - sh -lc 'cd ../ui && if [ -f package-lock.json ]; then npm ci --no-audit --no-fund || npm i --no-audit --no-fund --legacy-peer-deps; else npm i --no-audit --no-fund --legacy-peer-deps; fi'
+        - sh -lc 'cd ../ui && npm run build'
+        # Copy built UI and public assets into approuter/resources
+        - node -e "const fs=require('fs'),p=require('path');const dist=p.resolve('..','ui','dist');const pub=p.resolve('..','ui','public');const dst=p.resolve('resources');fs.rmSync(dst,{recursive:true,force:true});fs.mkdirSync(dst,{recursive:true});if(fs.existsSync(dist))fs.cpSync(dist,dst,{recursive:true});if(fs.existsSync(pub))fs.cpSync(pub,dst,{recursive:true});"
+      ignore:
+        - node_modules/
+    requires:
+      - name: rioforms-xsuaa
+      - name: rioforms-destination

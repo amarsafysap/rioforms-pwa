@@ -1,0 +1,16 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/logout",
+    "logoutPage": "/index.html"
+  },
+  "routes": [
+    {
+      "source": "^/api/service/RioFormsService/(.*)$",
+      "target": "/$1",
+      "destination": "RioForms-RioFormsService",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# Vite
+ui/dist/
+ui/.vite/
+
+# Approuter build output (copied during mbt build)
+approuter/resources/
+
+# MTA / CF build artifacts
+.mbt/
+.mta/
+mta_archives/
+Makefile_*.mta
+
+# Env files
+.env
+*.env
+.env.*
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/

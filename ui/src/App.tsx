@@ -83,7 +83,7 @@ export default function App() {
     <div className="container">
       <header className="header">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="logo" />
+          <div className="logo">R</div>
           <h1 className="h1">RioForms</h1>
         </div>
 

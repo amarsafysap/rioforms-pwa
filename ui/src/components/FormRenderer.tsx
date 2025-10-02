@@ -1,5 +1,6 @@
 // ui/src/components/FormRenderer.tsx
 import { useEffect, useState } from 'react';
+import Switch from './Switch';
 import { listQuestions, submitFormOnline, type Form, type Question } from '../api';
 import { queueSubmission, saveQuestions, getQuestions } from '../offline';
 
@@ -96,11 +97,10 @@ export default function FormRenderer({ form, user, onSuccess, onError }: Props) 
           <label key={q.ID} className="grid">
             <span className="label">{q.question}</span>
             {q.type_code === 2 ? (
-              <input
-                type="checkbox"
+              <Switch
                 checked={!!boolValues[q.ID]}
-                onChange={e => setBool(prev => ({ ...prev, [q.ID]: e.target.checked }))}
-                aria-label={q.question}
+                onChange={(val) => setBool(prev => ({ ...prev, [q.ID]: val }))}
+                label={q.question}
               />
             ) : (
               <input

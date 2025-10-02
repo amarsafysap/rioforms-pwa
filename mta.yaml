@@ -25,7 +25,7 @@ modules:
     path: approuter
     parameters:
       memory: 256M
-      disk-quota: 256M
+      disk-quota: 512M
       env:
         COOKIE_SAMESITE: "None"
         COOKIE_SECURE: "true"
